@@ -4,7 +4,7 @@
 
 ## Usage
 
-Download [Attendance-Taker.exe](https://github.com/advin4603/Attendance-Taker/blob/master/Attendance-Taker.exe) to a desired location. In the same folder as [Attendance-Taker.exe](https://github.com/advin4603/Attendance-Taker/blob/master/Attendance-Taker.exe) create an excel workbook data.xlsx.   
+Download [Attendance-Taker.exe](https://github.com/advin4603/Attendance-Taker/blob/master/Attendance-Taker.exe) to a desired location. In the same folder as [Attendance-Taker.exe](https://github.com/advin4603/Attendance-Taker/blob/master/Attendance-Taker.exe) create an excel workbook ***data.xlsx***.   
 
 Enter the names of all students in column A in a spreadsheet named ***Main Sheet*** such that the row number is equal to the student's roll number.  
 
