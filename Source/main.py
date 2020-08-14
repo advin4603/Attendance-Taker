@@ -2,8 +2,6 @@
 main.py - Compares a list of present students with total strength to determine absentees and unrecognized students.
 Author: Ayan Datta
 """
-
-import pprint
 import time
 import pyperclip
 from openpyxl import load_workbook
