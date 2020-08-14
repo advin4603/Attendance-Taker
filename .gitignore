@@ -127,5 +127,11 @@ dmypy.json
 # Log Files
 Logs/
 
-# todayAttendanceFile
-todayAttendance.txt
+# Attendance files
+Attendances/
+
+# data file
+data.xlsx
+
+# Traceback files
+Tracebacks/
