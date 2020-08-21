@@ -2,7 +2,7 @@
  Determines absentees and unrecognized people from a list of students.
 
 
-## Usage
+## Setup
 
 Download [Attendance-Taker.exe](https://github.com/advin4603/Attendance-Taker/blob/master/Attendance-Taker.exe) to a desired location. In the same folder as [Attendance-Taker.exe](https://github.com/advin4603/Attendance-Taker/blob/master/Attendance-Taker.exe) create an excel workbook ***data.xlsx***.   
 
@@ -10,6 +10,8 @@ Download [Attendance-Taker.exe](https://github.com/advin4603/Attendance-Taker/bl
 
 Enter the names of all students in column A in a sheet named ***Main Sheet*** such that the row number is equal to the student's roll number.  
 ![Excel Setup](https://github.com/advin4603/Attendance-Taker/blob/master/Images/ExcelSetup.png)
+
+## Usage
 
 To get the list of Absentees copy the list of participants in the meeting by using [Meet Attendance](https://chrome.google.com/webstore/detail/meet-attendance/nenibigflkdikhamlnekfppbganmojlg?hl=en) for Google Meet, [Reports](https://support.zoom.us/hc/en-us/articles/201363213-Getting-started-with-reports) for Zoom, or by other methods.  
 
