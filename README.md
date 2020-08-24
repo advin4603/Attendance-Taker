@@ -13,7 +13,7 @@ Enter the names of all students in column A in a sheet named ***Main Sheet*** su
 
 ## Usage
 
-To get the list of Absentees copy the list of participants in the meeting by using [Meet Attendance](https://chrome.google.com/webstore/detail/meet-attendance/nenibigflkdikhamlnekfppbganmojlg?hl=en) for Google Meet, [Reports](https://support.zoom.us/hc/en-us/articles/201363213-Getting-started-with-reports) for Zoom, or by other methods.  
+To get the list of Absentees copy the list of participants in the meeting by using [Meet Attendance Collector](https://chrome.google.com/webstore/detail/google-meet-attendance-co/hjjeaaibilndjeabckakaknlcbblcmbc?hl=en) for Google Meet, [Reports](https://support.zoom.us/hc/en-us/articles/201363213-Getting-started-with-reports) for Zoom, or by other methods.  
 
 ![Get List of Participants](https://github.com/advin4603/Attendance-Taker/blob/master/Images/GetListParticipants.png)
 
