@@ -1,0 +1,33 @@
+[tool.briefcase]
+project_name = "Attendance Taker"
+bundle = "com.attendancetaker"
+version = "0.0.1"
+url = "https://github.com/advin4603/Attendance-Taker"
+license = "MIT license"
+author = 'Ayan Datta'
+author_email = "advin4603@gmail.com"
+
+[tool.briefcase.app.attendancetaker]
+formal_name = "Attendance Taker"
+description = "Determines absentees and unrecognized people from a list of students."
+icon = "src/attendancetaker/resources/attendancetaker"
+sources = ['src/attendancetaker']
+requires = ['pyside2==5.15.0', 'openpyxl==3.0.5', "pyperclip==1.8.0"]
+
+
+[tool.briefcase.app.attendancetaker.macOS]
+requires = []
+
+[tool.briefcase.app.attendancetaker.linux]
+requires = []
+system_requires = []
+
+[tool.briefcase.app.attendancetaker.windows]
+requires = ['openpyxl==3.0.5']
+
+# Mobile deployments
+[tool.briefcase.app.attendancetaker.iOS]
+requires = []
+
+[tool.briefcase.app.attendancetaker.android]
+requires = []

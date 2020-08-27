@@ -1,0 +1,10 @@
+Metadata-Version: 2.1
+Briefcase-Version: 0.3.3
+Name: attendancetaker
+Formal-Name: Attendance Taker
+App-ID: com.attendancetaker.attendancetaker
+Version: 0.0.1
+Home-page: https://github.com/advin4603/Attendance-Taker
+Author: Ayan Datta
+Author-email: advin4603@gmail.com
+Summary: Determines absentees and unrecognized people from a list of students.
