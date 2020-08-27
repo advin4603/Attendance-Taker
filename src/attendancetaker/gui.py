@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-
-################################################################################
-## Form generated from reading UI file 'gui.ui'
-##
-## Created by: Qt User Interface Compiler version 5.15.0
-##
-## WARNING! All changes made in this file will be lost when recompiling UI file!
-################################################################################
-
 from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
                             QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
 from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
@@ -15,7 +5,7 @@ from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
                            QPixmap, QRadialGradient)
 from PySide2.QtWidgets import *
 import os
-import attendancetaker.logic
+import attendancetaker.dataHandler
 import datetime
 import pyperclip
 from pathlib import Path
@@ -24,19 +14,29 @@ import sys
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+
+        # If no Logs directory found at current working directory then create one.
         if not os.path.isdir("Logs"):
             os.mkdir("Logs")
 
+        # If no Attendances directory found at current working directory then create one.
         if not os.path.isdir("Attendances"):
             os.mkdir("Attendances")
-        attendancetaker.logic.load_settings()
-        self.settings = attendancetaker.logic.settings
+
+        # Load settings
+        attendancetaker.dataHandler.load_settings()
+
+        # Store settings as an attribute for easy access.
+        self.settings = attendancetaker.dataHandler.settings
+
+        # If the path containing excel workbook doesnt exist, then ask user to select one.
         if not os.path.isfile(self.settings["dataPath"]):
             qfd = QFileDialog()
             defaultPath = os.getcwd()
             fltr = "Excel Files (*.xlsx)"
             path = QFileDialog.getOpenFileName(qfd, "Select Students List", defaultPath, fltr)
             if not path[0]:
+                # If user does not select excel workbook containing student list then display warning and quit.
                 msg = QMessageBox()
                 msg.setWindowTitle("Error")
                 msg.setIcon(QMessageBox.Warning)
@@ -44,9 +44,14 @@ class Ui_MainWindow(object):
                 msg.setInformativeText("You must select a valid student list.")
                 msg.exec_()
                 sys.exit()
-            attendancetaker.logic.change_settings("dataPath", path[0])
 
-        attendancetaker.logic.load_data(self.settings["dataPath"])
+            # Remember the excel file chosen by user.
+            attendancetaker.dataHandler.change_settings("dataPath", path[0])
+
+        # load the excel workbook containing lists of students
+        attendancetaker.dataHandler.load_data(self.settings["dataPath"])
+
+        # Building the user interface
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(779, 690)
@@ -104,7 +109,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.dataChooser)
 
         self.sheetChoice = QComboBox(self.centralwidget)
-        for sheet in attendancetaker.logic.data:
+        for sheet in attendancetaker.dataHandler.data:
             self.sheetChoice.addItem(sheet)
         self.sheetChoice.setObjectName(u"sheetChoice")
         self.sheetChoice.setFont(font1)
@@ -143,26 +148,28 @@ class Ui_MainWindow(object):
         self.absentees: List[str] = []
 
     def choose_data(self):
+        """Function called to prompt user to select excel workbook containing lists of students"""
         qfd = QFileDialog()
         defaultPath = self.settings["dataPath"]
-        fltr = "Excel Files (*.xlsx)"
+        fltr = "Excel File (*.xlsx)"
         path = QFileDialog.getOpenFileName(qfd, "Select Students List", defaultPath, fltr)
         if path[0]:
-            attendancetaker.logic.change_settings("dataPath", path[0])
-            attendancetaker.logic.load_data(self.settings["dataPath"])
+            attendancetaker.dataHandler.change_settings("dataPath", path[0])
+            attendancetaker.dataHandler.load_data(self.settings["dataPath"])
             self.sheetChoice.clear()
-            for sheet in attendancetaker.logic.data:
+            for sheet in attendancetaker.dataHandler.data:
                 self.sheetChoice.addItem(sheet)
 
-    def download(self, *args, **kwargs):
+    def download(self):
+        """Function called to create a file containing all saved attendances and save it to a location on the pc."""
         path = QFileDialog.getSaveFileName(caption="Download Attendance to",
                                            dir=str(Path(self.settings[
                                                             "downloadPath"]) / Path(
                                                f"Attendance {datetime.datetime.now().date()}.txt")),
-                                           filter="*.txt")
+                                           filter="Text File (*.txt)")
         if not path[0]:
             return
-        attendancetaker.logic.change_settings("downloadPath", str(Path(path[0]).parent))
+        attendancetaker.dataHandler.change_settings("downloadPath", str(Path(path[0]).parent))
 
         file_name = f"Attendances\\Attendance {datetime.datetime.now().date()}.txt"
         if not os.path.isfile(file_name):
@@ -179,6 +186,7 @@ class Ui_MainWindow(object):
             print(content, file=new_file)
 
     def save(self, *args, **kwargs):
+        """Function to prompt user for a subject name to save the attendance under."""
         subject, ok = QInputDialog.getText(self, 'Save Attendance', 'Enter Subject Name:')
         if not ok:
             return
@@ -203,7 +211,8 @@ class Ui_MainWindow(object):
                     file=f)
 
     def go(self, *args, **kwargs):
-        student_data = attendancetaker.logic.data[self.sheetChoice.currentText()].copy()
+        """Function to get list of present people from clipboard and determine absentees."""
+        student_data = attendancetaker.dataHandler.data[self.sheetChoice.currentText()].copy()
         name = f"Logs\\Attendance;{datetime.datetime.now()}.txt".replace(
             " ", ";").replace(":", "-")
         with open(name, "w") as f:
@@ -215,7 +224,8 @@ class Ui_MainWindow(object):
         with open(name, "r") as file:
             # Separate all students in a list line by line.
             lines = [i.strip("\n") for i in file.readlines()]
-            # Make a list to store the indices of the lines containing names of recognized students that need to be deleted from the list of lines so that only unrecognized names remain.
+            # Make a list to store the indices of the lines containing names of recognized students that need to be
+            # deleted from the list of lines so that only unrecognized names remain.
             remove_line = []
 
             # Loop over every line.
@@ -224,7 +234,8 @@ class Ui_MainWindow(object):
                 for key, val in student_data.items():
                     # Check if name matches the one in database.
                     if val in line:
-                        # If match found then remove the name from the database so that it is not checked for again and add the line to remove lines.
+                        # If match found then remove the name from the database so that it is not checked for again
+                        # and add the line to remove lines.
                         del student_data[key]
                         remove_line.append(line)
                         break
@@ -238,18 +249,23 @@ class Ui_MainWindow(object):
         if student_data:
             output_text += "Absentees:\n" + "\n".join([f"{i} : {student_data[i].strip()}" for i in student_data])
         else:
-            output_text += ("No Absentees.")
+            output_text += "No Absentees."
 
         output_text += ("\n" + "-" * 20 + "\n")
 
         # Print out all the unrecognized names.
-        output_text += "Unrecognized Students:\n" + "\n".join([i.strip() for i in list(filter(lambda n: n, lines))])
+        unrec_names = [i.strip() for i in filter(lambda n: n, lines)]
+        if len(unrec_names) > 0:
+            output_text += "Unrecognized Students:\n" + "\n".join(unrec_names)
+        else:
+            output_text += "Unrecognized Students:\n" + "No Unrecognized students."
 
         output_text += ("\n" + "-" * 20 + "\n")
         self.outputBox.setText(output_text)
         self.absentees = list(student_data.values())
 
     def retranslateUi(self, MainWindow):
+        """Set English text in ui."""
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.headingLabel.setText(QCoreApplication.translate("MainWindow", u"Attendance Taker", None))
         # if QT_CONFIG(whatsthis)

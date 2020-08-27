@@ -1,7 +1,7 @@
 [tool.briefcase]
 project_name = "Attendance Taker"
 bundle = "com.attendancetaker"
-version = "0.0.1"
+version = "1.0"
 url = "https://github.com/advin4603/Attendance-Taker"
 license = "MIT license"
 author = 'Ayan Datta'
@@ -10,10 +10,11 @@ author_email = "advin4603@gmail.com"
 [tool.briefcase.app.attendancetaker]
 formal_name = "Attendance Taker"
 description = "Determines absentees and unrecognized people from a list of students."
-icon = "src/attendancetaker/resources/attendancetaker"
 sources = ['src/attendancetaker']
 requires = ['pyside2==5.15.0', 'openpyxl==3.0.5', "pyperclip==1.8.0"]
-
+icon = "Resources/Vexels-Office-Clipboard"
+installer_icon = "Resources/Vexels-Office-Clipboard"
+installer_background = "Resources/paper"
 
 [tool.briefcase.app.attendancetaker.macOS]
 requires = []

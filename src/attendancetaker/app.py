@@ -13,11 +13,14 @@ import datetime
 class AttendanceTaker(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         QtWidgets.QMainWindow.__init__(self)
+        # Load GUI
         try:
             self.init_ui()
         except SystemExit:
+            # If sys.exit() called while loading, then quit.
             sys.exit()
         except:
+            # If Error Encountered while loading, display error message and quit.
             msg = QMessageBox()
             msg.setWindowTitle("Critical Error")
             msg.setIcon(QMessageBox.Critical)
@@ -25,14 +28,16 @@ class AttendanceTaker(QtWidgets.QMainWindow, Ui_MainWindow):
             error_file_name = f"Tracebacks\\Traceback{datetime.datetime.now()}".replace(":", ";").replace(".",
                                                                                                           ",") + ".txt"
             msg.setInformativeText(f"- Something went wrong -\n\nCheck {os.getcwd()}\\{error_file_name} for details.")
+
             with open(error_file_name, "w") as error_file:
+                # Save error in traceback file for debugging
                 print(traceback.format_exc(), file=error_file)
             msg.exec_()
             sys.exit()
 
     def init_ui(self):
         self.setupUi(self)
-        self.setWindowTitle('attendancetaker')
+        self.setWindowTitle('Attendance Taker')
         self.show()
 
 
