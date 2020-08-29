@@ -11,6 +11,23 @@ import pyperclip
 from pathlib import Path
 import sys
 import shutil
+import csv
+
+
+class DragDropButton(QPushButton):
+    def __init__(self, parent, *args, **kwargs):
+        super().__init__(parent, *args, **kwargs)
+        self.setAcceptDrops(True)
+
+    def dragEnterEvent(self, e):
+        if e.mimeData().hasUrls():
+            e.accept()
+            self.setStyleSheet("background-color : lightgreen;")
+        else:
+            e.ignore()
+
+    def dragLeaveEvent(self, event):
+        self.setStyleSheet("")
 
 
 class Ui_MainWindow(object):
@@ -89,7 +106,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(30, -1, 30, -1)
-        self.goButton = QPushButton(self.centralwidget)
+        self.goButton = DragDropButton(self.centralwidget)
         self.goButton.setObjectName(u"goButton")
         self.goButton.setMinimumSize(QSize(0, 0))
         font1 = QFont()
@@ -98,6 +115,7 @@ class Ui_MainWindow(object):
         font1.setWeight(75)
         self.goButton.setFont(font1)
         self.goButton.clicked.connect(self.go)
+        self.goButton.dropEvent = self.goButtonDrag
 
         self.verticalLayout_3.addWidget(self.goButton)
 
@@ -161,6 +179,15 @@ class Ui_MainWindow(object):
 
         QMetaObject.connectSlotsByName(MainWindow)
         self.absentees: List[str] = []
+
+    def goButtonDrag(self, e):
+        if e.mimeData().urls()[0].isLocalFile:
+            draggedPath = str(e.mimeData().urls()[0].toLocalFile())
+            if Path(draggedPath).suffix in (".csv",):
+                with open(draggedPath, "r") as csvFile:
+                    content = [i for j in csv.reader(csvFile) for i in j]
+                self.takeAttendance("\n".join(content))
+        self.goButton.setStyleSheet("")
 
     def clearLogs(self):
         if os.path.isdir("Logs"):
@@ -235,14 +262,14 @@ class Ui_MainWindow(object):
                     f"{subject} : {', '.join([i.strip() for i in self.absentees[:-1]])}, and {self.absentees[-1].strip()}",
                     file=f)
 
-    def go(self, *args, **kwargs):
+    def takeAttendance(self, studentList: str):
         """Function to get list of present people from clipboard and determine absentees."""
         student_data = attendancetaker.dataHandler.data[self.sheetChoice.currentText()].copy()
         name = f"Logs\\Attendance;{datetime.datetime.now()}.txt".replace(
             " ", ";").replace(":", "-")
         with open(name, "w") as f:
             # Get present students from clipboard.
-            s = pyperclip.paste()
+            s = studentList
             print(s, file=f)
 
         # Open the file of all present students to read all present students.
@@ -288,6 +315,10 @@ class Ui_MainWindow(object):
         output_text += ("\n" + "-" * 20 + "\n")
         self.outputBox.setText(output_text)
         self.absentees = list(student_data.values())
+
+    def go(self, *args, **kwargs):
+        """Function when go button is clicked."""
+        self.takeAttendance(pyperclip.paste())
 
     def retranslateUi(self, MainWindow):
         """Set English text in ui."""
