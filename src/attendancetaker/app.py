@@ -4,6 +4,7 @@ Determines absentees and unrecognized people from a list of students.
 import sys
 from PySide2 import QtWidgets
 from PySide2.QtWidgets import QMessageBox
+from PySide2.QtGui import QIcon
 from attendancetaker.gui import Ui_MainWindow
 import traceback
 import os
@@ -38,6 +39,8 @@ class AttendanceTaker(QtWidgets.QMainWindow, Ui_MainWindow):
     def init_ui(self):
         self.setupUi(self)
         self.setWindowTitle('Attendance Taker')
+        appIcon = QIcon("Resources/Vexels-Office-Clipboard.ico")
+        self.setWindowIcon(appIcon)
         self.show()
 
 

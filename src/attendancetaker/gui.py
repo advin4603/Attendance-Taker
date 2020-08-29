@@ -10,6 +10,7 @@ import datetime
 import pyperclip
 from pathlib import Path
 import sys
+import shutil
 
 
 class Ui_MainWindow(object):
@@ -133,6 +134,20 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_3.addWidget(self.downloadButton)
 
+        self.clearLogsButton = QPushButton(self.centralwidget)
+        self.clearLogsButton.setObjectName(u"clearLogsButton")
+        self.clearLogsButton.setFont(font1)
+        self.clearLogsButton.clicked.connect(self.clearLogs)
+
+        self.verticalLayout_3.addWidget(self.clearLogsButton)
+
+        self.clearAttendancesButton = QPushButton(self.centralwidget)
+        self.clearAttendancesButton.setObjectName(u"clearAttendancesButton")
+        self.clearAttendancesButton.setFont(font1)
+        self.clearAttendancesButton.clicked.connect(self.clearAttendances)
+
+        self.verticalLayout_3.addWidget(self.clearAttendancesButton)
+
         self.contentBox.addLayout(self.verticalLayout_3)
 
         self.verticalLayout.addLayout(self.contentBox)
@@ -146,6 +161,16 @@ class Ui_MainWindow(object):
 
         QMetaObject.connectSlotsByName(MainWindow)
         self.absentees: List[str] = []
+
+    def clearLogs(self):
+        if os.path.isdir("Logs"):
+            shutil.rmtree("Logs")
+        os.mkdir("Logs")
+
+    def clearAttendances(self):
+        if os.path.isdir("Attendances"):
+            shutil.rmtree("Attendances")
+        os.mkdir("Attendances")
 
     def choose_data(self):
         """Function called to prompt user to select excel workbook containing lists of students"""
@@ -300,4 +325,13 @@ class Ui_MainWindow(object):
                                                                     None))
         # endif // QT_CONFIG(whatsthis)
         self.downloadButton.setText(QCoreApplication.translate("MainWindow", u"Download", None))
-    # retranslateUi
+
+        self.clearLogsButton.setWhatsThis(QCoreApplication.translate("MainWindow",
+                                                                     u"<html><head/><body><p>Clear all Log Files.</p></body></html>",
+                                                                     None))
+        self.clearLogsButton.setText(QCoreApplication.translate("MainWindow", u"Clear Logs", None))
+
+        self.clearAttendancesButton.setWhatsThis(QCoreApplication.translate("MainWindow",
+                                                                            u"<html><head/><body><p>Clear all Attendances.</p></body></html>",
+                                                                            None))
+        self.clearAttendancesButton.setText(QCoreApplication.translate("MainWindow", u"Clear Attendances", None))
