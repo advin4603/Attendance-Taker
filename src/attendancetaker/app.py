@@ -39,7 +39,7 @@ class AttendanceTaker(QtWidgets.QMainWindow, Ui_MainWindow):
     def init_ui(self):
         self.setupUi(self)
         self.setWindowTitle('Attendance Taker')
-        appIcon = QIcon("Resources/Vexels-Office-Clipboard.ico")
+        appIcon = QIcon("app/attendancetaker/resources/Vexels-Office-Clipboard.ico")
         self.setWindowIcon(appIcon)
         self.show()
 

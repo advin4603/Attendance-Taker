@@ -24,7 +24,7 @@ requires = []
 system_requires = []
 
 [tool.briefcase.app.attendancetaker.windows]
-requires = ['openpyxl==3.0.5']
+requires = []
 
 # Mobile deployments
 [tool.briefcase.app.attendancetaker.iOS]
