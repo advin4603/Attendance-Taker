@@ -5,11 +5,14 @@ Determines absentees and unrecognized people from a list of attendees.
 #### -Windows ####
 Download the [setup](https://github.com/advin4603/Attendance-Taker/releases/download/1.0/Attendance.Taker-1.0.msi) to a desired location and run it. If Windows Defender blocks the installer then select more info run it anyway.   
 ![installation](https://github.com/advin4603/Attendance-Taker/blob/experimental/Images/Installation.png)  
+  
 Attendance Taker will be added to the start menu.
 Create an Excel Workbook at a desired location. Create a sheet for each of your class containing all students roll number wise. The row number must be equal to the student's roll number.  
-![creating list](https://github.com/advin4603/Attendance-Taker/blob/experimental/Images/creatingList.png)  
+![creating list](https://github.com/advin4603/Attendance-Taker/blob/experimental/Images/creatingList.png)    
+  
 Run Attendance Taker from your Start Menu. You will be prompted to select a list of students. Navigate to and select the Excel workbook you created.  
-![selecting student list](https://github.com/advin4603/Attendance-Taker/blob/experimental/Images/selectingStudentList.png)
+![selecting student list](https://github.com/advin4603/Attendance-Taker/blob/experimental/Images/selectingStudentList.png)  
+  
 This will setup Attendance Taker.
 
 ## Usage ##
@@ -23,10 +26,12 @@ If the list of attendees is a csv file containing a column of students (obtained
 ![dragging file](https://github.com/advin4603/Attendance-Taker/blob/experimental/Images/draggingFile.png)  
   
 Else copy the list of students then press the Go Button.  
-![Absentees](https://github.com/advin4603/Attendance-Taker/blob/experimental/Images/absenteeResult.png)  
+
 
 Attendance Taker will display a list of absentees and unrecognized people.
 You can save the Attendance by pressing the Save Button and entering the subject name. Attendance Taker will save the day's Attendance which can be downloaded using the download button.  
+![Absentees](https://github.com/advin4603/Attendance-Taker/blob/experimental/Images/absenteeResult.png)    
+
 ![result](https://github.com/advin4603/Attendance-Taker/blob/experimental/Images/result.png)  
   
 ## Contributing
